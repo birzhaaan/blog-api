@@ -1,0 +1,21 @@
+line-length = 100
+exclude = ["migrations", "venv"]
+
+[lint]
+select = ["E", "F", "I", "N"]
+
+[lint.isort]
+known-first-party = ["apps", "settings"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "drf",
+    "django",
+    "first-party",
+    "local-folder",
+]
+
+[lint.isort.sections]
+drf = ["rest_framework"]
+django = ["django"]
