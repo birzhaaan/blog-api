@@ -1,8 +1,13 @@
+from datetime import timedelta
+
 from settings.conf import ALLOWED_HOSTS, BASE_DIR, SECRET_KEY  # noqa: F401
 
 LOGS_DIR = BASE_DIR / 'logs'
 LOG_FILE_NAME = 'blog.log'
 LOG_LEVEL = 'INFO'
+
+ACCESS_TOKEN_LIFETIME_MINUTES = 60
+REFRESH_TOKEN_LIFETIME_DAYS = 7
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -63,6 +68,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=REFRESH_TOKEN_LIFETIME_DAYS),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 LOGGING = {
     'version': 1,
