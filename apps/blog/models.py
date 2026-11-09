@@ -40,6 +40,7 @@ class Post(models.Model):
         Category,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='posts',
     )
     tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
