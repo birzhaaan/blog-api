@@ -1,0 +1,51 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n unfold %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col gap-6">
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {% for card in kpi_cards %}
+                {% component "unfold/components/card.html" with icon=card.icon %}
+                    <span class="block text-font-important-light dark:text-font-important-dark text-sm">
+                        {{ card.title }}
+                    </span>
+                    <strong class="block font-semibold text-2xl text-font-important-light dark:text-font-important-dark">
+                        {{ card.value }}
+                    </strong>
+                {% endcomponent %}
+            {% endfor %}
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {% component "unfold/components/card.html" with title="Posts per category" title_icon="bar_chart" %}
+                {% component "unfold/components/chart/bar.html" with data=posts_per_category_chart height=320 %}
+                {% endcomponent %}
+            {% endcomponent %}
+
+            {% component "unfold/components/card.html" with title="Top authors" title_icon="trophy" %}
+                {% component "unfold/components/table.html" with table=top_authors_table card_included=1 %}
+                {% endcomponent %}
+            {% endcomponent %}
+        </div>
+
+        {% if status_progress %}
+            {% component "unfold/components/card.html" with title="Published vs drafts" title_icon="donut_small" %}
+                <div class="flex flex-col gap-5">
+                    {% for item in status_progress %}
+                        {% component "unfold/components/progress.html" with title=item.title description=item.count value=item.value %}
+                        {% endcomponent %}
+                    {% endfor %}
+                </div>
+            {% endcomponent %}
+        {% endif %}
+
+    </div>
+{% endblock %}
